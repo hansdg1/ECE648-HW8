@@ -3,26 +3,12 @@
 %================================================
 
 % READ IN FILE
-[Audio, fs1, BitsPerSample1] = wavread('audio1.wav');
-NumSamples = wavread('audio1.wav', 'size');
-Audio = Audio';
+[AUDIO,SAMPLE_RATE] = audioread('audio1.wav');
+alphas = [0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 0.9];
+for n = 1:length(alphas)
+    Daubechies(AUDIO,SAMPLE_RATE,alphas(n));
+end
 
-% SET MODE
-dwtmode('per','nodisp');
-
-% DECONSTRUCT WAVEFORM
-[Coef,S] = wavedec2(Audio, 5, 'db10');
-
-% COMPRESSION
-ALPHA = .9;
-Sorted = sort(abs(Coef), 'descend');
-Cutoff = Sorted(round(NumSamples(1)*ALPHA));
-Coef(abs(Coef) < Cutoff) = 0;
-
-% RECONSTRUCT WAVEFORM
-Final = waverec2(Coef, S, 'db10');
-sound(Final, fs1);
-MSE = mse(Audio - Final);
 
 %------------------------------------------------
 %----------------IMAGE COMPRESSION---------------
