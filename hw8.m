@@ -4,9 +4,10 @@
 
 % READ IN FILE
 [AUDIO,SAMPLE_RATE] = audioread('audio1.wav');
+
 alphas = [0.01, 0.05, 0.1, 0.3, 0.5, 0.7, 0.9];
 for n = 1:length(alphas)
-    Daubechies(AUDIO,SAMPLE_RATE,alphas(n));
+    DaubechiesAudio(AUDIO,SAMPLE_RATE,alphas(n));
 end
 
 
@@ -15,23 +16,28 @@ end
 %================================================
 
 % READ IN FILE
-Lena = imread('lena.bmp');
-Level = 4;
-Order = 'db4';
+Lena = double(imread('lena.bmp'));
 
-% DECONSTRUCT IMAGE
-[CoefLena, SLena] = wavedec2(Lena, Level, Order);
+figure(1);
+subplot(2,4,1);
+imshow(Lena,[]);
+title('Original Image');
+for n = 1:length(alphas)
+    coifletImage = CoifletImage(Lena,alphas(n));
+    subplot(2,4,n+1);
+    str = sprintf('Alpha = %.2f',alphas(n));
+    imshow(coifletImage,[]);
+    title(str);
+end
 
-% COMPRESSION
-SortedLena = sort(abs(CoefLena), 'descend');
-CutoffLena = SortedLena(round(256*256*ALPHA));
-CoefLena(abs(CoefLena) < CutoffLena) = 0;
-
-% RECONSTRUCT IMAGE
-FinalLena = uint8(waverec2(CoefLena, SLena, Order));
-MSELena = mse(Lena-FinalLena);
-
-% PRINT IMAGE
-figure;
-imshow(FinalLena, [])
-title('4 Level Daubechies. Alpha = .9. Order = 4');
+figure(2);
+subplot(2,4,1);
+imshow(Lena,[]);
+title('Original Image');
+for n = 1:length(alphas)
+    daubechiesImage = DaubechiesImage(Lena,alphas(n));
+    subplot(2,4,n+1);
+    str = sprintf('Alpha = %.2f',alphas(n));
+    imshow(daubechiesImage,[]);
+    title(str);
+end
