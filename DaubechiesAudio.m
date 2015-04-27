@@ -11,7 +11,7 @@ dwtmode('per','nodisp');
 
 % DECONSTRUCT WAVEFORM
 NUMLEVELS = 5;
-[Coef,S] = wavedec2(AUDIO, NUMLEVELS, 'db10');
+[Coef,S] = wavedec(AUDIO, NUMLEVELS, 'db10');
 
 % COMPRESSION
 Sorted = sort(abs(Coef), 'descend');
@@ -20,10 +20,9 @@ Coef(abs(Coef) < Cutoff) = 0;
 
 
 % RECONSTRUCT WAVEFORM
-Final = waverec2(Coef, S, 'db10');
+Final = waverec(Coef, S, 'db10');
 sound(Final, SAMPLE_RATE);
 MSE = mse(AUDIO - Final);
-fprintf('MSE for %.2f: %d\n',alpha,MSE)
+fprintf('MSE for D.A. %.2f: %d\n',alpha,MSE)
 
 end
-
