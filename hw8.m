@@ -25,7 +25,7 @@ title('Original Image');
 for n = 1:length(alphas)
     coifletImage = CoifletImage(Lena,alphas(n));
     subplot(2,4,n+1);
-    str = sprintf('Alpha = %.2f',alphas(n));
+    str = strcat('\alpha = ', num2str(alphas(n),'%.2f'));
     imshow(coifletImage,[]);
     title(str);
 end
@@ -37,7 +37,7 @@ title('Original Image');
 for n = 1:length(alphas)
     daubechiesImage = DaubechiesImage(Lena,alphas(n));
     subplot(2,4,n+1);
-    str = sprintf('Alpha = %.2f',alphas(n));
+    str = strcat('\alpha = ', num2str(alphas(n),'%.2f'));
     imshow(daubechiesImage,[]);
     title(str);
 end
