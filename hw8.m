@@ -29,6 +29,8 @@ for n = 1:length(alphas)
     imshow(coifletImage,[]);
     title(str);
 end
+print('Coiflet Wavelets','-dpng','-r125')
+
 
 figure(2);
 subplot(2,4,1);
@@ -41,3 +43,5 @@ for n = 1:length(alphas)
     imshow(daubechiesImage,[]);
     title(str);
 end
+print('Debauchies Wavelets','-dpng','-r125')
+
